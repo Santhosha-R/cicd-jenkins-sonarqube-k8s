@@ -12,6 +12,7 @@ pipeline {
 
     environment {
         SONAR_HOST_URL  = "http://15.252.149.116:9000"
+        SONAR_SCANNER_BIN = "/opt/sonar-scanner/bin/sonar-scanner"
         
         // REGISTRY        = "637423622313.dkr.ecr.ap-south-1.amazonaws.com"
         // IMAGE           = "637423622313.dkr.ecr.ap-south-1.amazonaws.com/mern-frontend"
@@ -32,14 +33,15 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                    sh '''
-                        cd frontend
-                        sonar-scanner \
-                            -Dsonar.host.url="${SONAR_HOST_URL}" \
-                            -Dsonar.login="${SONAR_TOKEN}"
-                    '''
-                }
+        withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+            sh '''
+                cd frontend
+
+                /usr/local/bin/sonar-scanner \
+                  -Dsonar.host.url=http://15.252.149.116:9000 \
+                  -Dsonar.token="$SONAR_TOKEN"
+            '''
+        }
             }
         }
 
