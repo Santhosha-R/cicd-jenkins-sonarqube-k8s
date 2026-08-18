@@ -32,9 +32,16 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                
-                withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
-                    sh "cd frontend; sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}"
+                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN_SECRET')]) {
+                    sh '''
+                        cd frontend
+                        npm install -g sonar-scanner
+                        sonar-scanner \
+                            -Dsonar.host.url=${SONAR_HOST_URL} \
+                            -Dsonar.login=${SONAR_TOKEN_SECRET} \
+                            -Dsonar.projectKey=mern-frontend \
+                            -Dsonar.sources=src
+                    '''
                 }
             }
         }
