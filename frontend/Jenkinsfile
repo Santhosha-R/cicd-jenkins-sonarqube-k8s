@@ -34,7 +34,15 @@ pipeline {
             steps {
                 sh "pwd ; ls -lrt"
                 withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
-                    sh "cd frontend; sonar-scanner-npm -Dsonar.host.url=http://15.252.149.116:9000 -Dsonar.login=${SONAR_TOKEN}"
+                    sh '''
+                        cd frontend
+                        npm install -g sonar-scanner
+                        sonar-scanner \
+                            -Dsonar.host.url=${SONAR_HOST_URL} \
+                            -Dsonar.login=${SONAR_TOKEN} \
+                            -Dsonar.projectKey=mern-frontend \
+                            -Dsonar.sources=src
+                    '''
                 }
             }
         }
