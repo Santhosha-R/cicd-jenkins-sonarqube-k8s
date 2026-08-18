@@ -21,19 +21,19 @@ pipeline {
 
     }
 
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '10'))
-        timeout(time: 30, unit: 'MINUTES')
-        timestamps()
-        disableConcurrentBuilds()
-    }
+    // options {
+    //     buildDiscarder(logRotator(numToKeepStr: '10'))
+    //     timeout(time: 30, unit: 'MINUTES')
+    //     timestamps()
+    //     disableConcurrentBuilds()
+    // }
 
     stages {
 
         stage('SonarQube Analysis') {
             steps {
                 
-                withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
                     sh "cd frontend; sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}"
                 }
             }
