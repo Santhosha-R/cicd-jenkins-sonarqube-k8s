@@ -39,7 +39,7 @@ pipeline {
                         sonar-scanner \
                             -Dsonar.host.url=${SONAR_HOST_URL} \
                             -Dsonar.login=${SONAR_TOKEN_SECRET} \
-                            -Dsonar.projectKey=mern-frontend \
+                            -Dsonar.projectKey=frontend \
                             -Dsonar.sources=src
                     '''
                 }
