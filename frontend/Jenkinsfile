@@ -37,8 +37,8 @@ pipeline {
             sh '''
                 cd frontend
 
-                /usr/local/bin/sonar-scanner \
-                  -Dsonar.host.url=http://15.252.149.116:9000 \
+                "${SONAR_SCANNER_BIN}" \
+                  -Dsonar.host.url="${SONAR_HOST_URL}" \
                   -Dsonar.token="$SONAR_TOKEN"
             '''
         }
